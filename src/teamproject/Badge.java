@@ -2,25 +2,33 @@ package teamproject;
 public class Badge {
     //instance fields
     private String id;
-    private String name;
+    private String description;
     //constructor
-    public Badge(String id, String name) {
+    public Badge(String id, String description) {
         this.id = id;
-        this.name = name;
+        this.description = description;
     }
     //methods
-    public String getID() {return id;}
-    public String getName() {return name;}
-    public void setID(String i) {
-        this.id = i;
+
+    public String getId() {
+        return id;
     }
-    public void setName(String n) {
-        this.name = n;
+
+    public String getDescription() {
+        return description;
     }
-    //toString()
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+  
     @Override
     public String toString() {
-        return "#" + this.id + " " + '(' + this.name + ')';
+        return "#" + this.id + " " + '(' + this.description + ')';
     }
     
     
