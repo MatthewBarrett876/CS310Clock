@@ -41,12 +41,7 @@ public class TASDatabase {
             /* Create Statement */
             stmt = conn.createStatement( );
           
-            
-            /* Get the id from the punch*/
-            punch = stmt.executeQuery("SELECT * FROM punch p;");
-            badge = stmt.executeQuery("SELECT * FROM badge b;");
-            shift = stmt.executeQuery("SELECT * FROM shift s;");
-            
+           
             /* Close Database Connection */
             
             conn.close();
