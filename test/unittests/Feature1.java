@@ -1,9 +1,6 @@
-package Feature1;
+package unittests;
 
-import teamproject.Shift;
-import teamproject.TASDatabase;
-import teamproject.Punch;
-import teamproject.Badge;
+import teamproject.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
