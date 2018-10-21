@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.Calendar;
  public class Shift {
     
+     
     
     String description;
     Long start;

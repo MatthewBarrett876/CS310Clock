@@ -74,6 +74,7 @@ public class Punch {
     java.util.Date d = gc.getTime();
     String time = sdf.format(d);
     
+    
     return time;
 }
     

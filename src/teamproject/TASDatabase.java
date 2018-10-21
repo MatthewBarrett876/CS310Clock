@@ -10,6 +10,7 @@ public class TASDatabase {
     int check = 1;
     String query, value;
     
+    
     ResultSet resultset = null;
     ResultSetMetaData metadata = null;
     Connection conn = null;
