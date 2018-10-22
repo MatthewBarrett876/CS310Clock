@@ -14,21 +14,34 @@ public class Punch {
     public static final int CLOCK_IN = 1;
     public static final int TIME_OUT = 2;
     //constructor
-    public Punch(Badge badge, int terminalid, int punchtypeid, long originalts) {
+    public Punch(Badge badge, int terminalid, int punchtypeid) {
         this.badge = badge;
         this.terminalid = terminalid;
         this.punchtypeid = punchtypeid;
         
-        this.originaltimestamp = originalts;
+      
         
     }
     //methods
     public Badge getBadge() {return badge;}
     public int getTerminalid() {return terminalid;}
     public int getPunchtypeid() {return punchtypeid;}
-    public long getOriginaltimestamp() {return originaltimestamp;}
+    public long getOriginaltimestamp() 
+    {
+        
+        
+        
+        return originaltimestamp;
+    
+    }
     public Timestamp getAdjustedtimestamp() {return adjustedtimestamp;}
-    public int getID() {return id;}
+    public String getBadgeid() 
+    {
+        String id = badge.getId();
+        
+        return id;
+    
+    }
     public void setBadge(Badge b) {
         this.badge = b;
     }
