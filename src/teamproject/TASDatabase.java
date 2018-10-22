@@ -2,15 +2,16 @@ package teamproject;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 
 public class TASDatabase {
     
-    int check = 1;
+    
     String query, value;
     
-    
+    PreparedStatement pstSelect = null, pstUpdate = null;
     ResultSet resultset = null;
     ResultSetMetaData metadata = null;
     Connection conn = null;
@@ -18,7 +19,8 @@ public class TASDatabase {
     ResultSet punch = null;
     ResultSet badge = null;
     ResultSet shift = null;
-    PreparedStatement pstSelect;
+    
+    int resultCount, columnCount, updateCount = 0;
     
     boolean hasresults;
     
@@ -92,8 +94,8 @@ public class TASDatabase {
                                 
                                 int terminalId = resultset.getInt(2);
                                 int punchTypeId = resultset.getInt(5);
-                                long originalTS = resultset.getLong(6);
-                                p = new Punch(getBadge(badge), terminalId, punchTypeId, originalTS);
+                               
+                                p = new Punch(getBadge(badge), terminalId, punchTypeId);
 
                                 return p;
                                 
@@ -309,17 +311,133 @@ public class TASDatabase {
         {
             System.err.println("Unable to connect to the database");
             
-            
         }
              
            return s;
    }
 
+ public long getOriginalTimestamp(Punch p)
+ {
+     String id = p.getBadgeid();
+     
+     Shift s = null; 
+     
+      try
+       {
+           
+            query = ("SELECT * FROM punch WHERE badgeid = '" + id + "'");
+            pstSelect = conn.prepareStatement(query);
+            
+            hasresults = pstSelect.execute();     
+           
+                while ( hasresults || pstSelect.getUpdateCount() != -1 ) {
+
+                    if ( hasresults ) {
+                        
+                        /* Get ResultSet Metadata */
+                        
+                        resultset = pstSelect.getResultSet();
+                        metadata = resultset.getMetaData();
+                       
+                       
+                        /* Get Data; Print as Table Rows */
+                        
+                        while(resultset.next()) {
+                          
+
+                            while(true)
+                            {
+                               
+                               int shiftId = resultset.getInt(7);
+                               
+                               s = getShift(shiftId);
+                               
+                               return s;
+                               
+                            }
+                            
+                        }
+                    }
+                    
+                    hasresults = pstSelect.getMoreResults();
+                }
+                
+               
+       }
+       
+        catch (Exception e) 
+        {
+            System.err.println("Unable to connect to the database");
+            
+        }
+             
+           return s;
+     
+     
+ }
    
    
+public int insertPunch(Punch p)
+{
+    String badgeid = p.getBadgeid();
+    int terminalid = p.getTerminalid();
+    int punchtypeid = p.getPunchtypeid();
+    int id = 0;
+    
+    try
+    {
+       
+        query = "INSERT INTO punch(badgeid, terminalid, punchtypeid) VALUES ('" + badgeid + "', " + terminalid + ", " + punchtypeid + ")";
+        pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    
+                    // Execute Update Query
+
+                    updateCount = pstUpdate.executeUpdate();
+
+                    // Get New Key; Print To Console
+
+                    if (updateCount > 0) {
+
+                        resultset = pstUpdate.getGeneratedKeys();
+
+                        if (resultset.next()) {
+                            
+                            id = resultset.getInt(1);
+                            
+                            p.setID(id);
+                            
+                            return id;
+
+                        }
+
+                    }
+
+
+    }
+    
+    catch (Exception e) 
+    {
+            System.err.println("Unable to connect to the database");
+            
+    }
+    
+    return id;
+    
 }
+
+
+public ArrayList getDailyPunchList(Badge b, long ts) 
+{
     
     
+    
+}
+
+
+
+
+
+
 
 
    
