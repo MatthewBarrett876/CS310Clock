@@ -3,48 +3,59 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 public class Punch {
+    
     //instance fields
-    private Badge badge;
+    private String badgeid;
     private int terminalid;
     private int punchtypeid;
     private long originaltimestamp;
-    private Timestamp adjustedtimestamp = null;
+    private long adjustedtimestamp;
     private int id = 0;
     public static final int CLOCK_OUT = 0;
     public static final int CLOCK_IN = 1;
     public static final int TIME_OUT = 2;
     //constructor
+    
     public Punch(Badge badge, int terminalid, int punchtypeid) {
-        this.badge = badge;
+        this.badgeid = badge.getId();
         this.terminalid = terminalid;
         this.punchtypeid = punchtypeid;
         
-      
+        this.originaltimestamp = (new GregorianCalendar()).getTimeInMillis();
+        
+        
         
     }
+    
+    
+    public Punch(Badge badge, int terminalid, int punchtypeid, long originalts) {
+        this.badgeid = badge.getId();
+        this.terminalid = terminalid;
+        this.punchtypeid = punchtypeid;
+        
+        this.originaltimestamp = originalts;
+        
+    }
+    
+    
+    public String getBadgeid() {return badgeid;}
+
     //methods
-    public Badge getBadge() {return badge;}
-    public int getTerminalid() {return terminalid;}
+    public void setBadgeid(String badgeid) 
+    {
+        this.badgeid = badgeid;
+    }
+
+    public int getTerminalid() 
+    {
+        return terminalid;
+    }
+    
     public int getPunchtypeid() {return punchtypeid;}
-    public long getOriginaltimestamp() 
-    {
-        
-        
-        
-        return originaltimestamp;
-    
-    }
-    public Timestamp getAdjustedtimestamp() {return adjustedtimestamp;}
-    public String getBadgeid() 
-    {
-        String id = badge.getId();
-        
-        return id;
-    
-    }
-    public void setBadge(Badge b) {
-        this.badge = b;
-    }
+    public long getOriginaltimestamp() {return originaltimestamp;}
+    public long getAdjustedtimestamp() {return adjustedtimestamp;}
+    public int getID() {return id;}
+   
     public void setTerminalid(int t) {
         this.terminalid = t;
     }
@@ -54,7 +65,7 @@ public class Punch {
     public void setOriginaltimestamp(Long ts) {
         this.originaltimestamp = ts;
     }
-    public void setAdjustedtimestamp(Timestamp a) {
+    public void setAdjustedtimestamp(Long a) {
         this.adjustedtimestamp = a;
     }
     public void setID(int i) {
@@ -64,13 +75,13 @@ public class Punch {
     public String printOriginalTimestamp() {
         String p = null;
         if (getPunchtypeid() == CLOCK_OUT) {
-            p = "#" + badge.getId() + " " + "CLOCKED OUT: " + getTime(originaltimestamp).toUpperCase();
+            p = "#" + badgeid + " " + "CLOCKED OUT: " + getTime(originaltimestamp).toUpperCase();
         }
         if (getPunchtypeid() == CLOCK_IN) {
-            p = "#" + badge.getId() + " " + "CLOCKED IN: " + getTime(originaltimestamp).toUpperCase();
+            p = "#" + badgeid + " " + "CLOCKED IN: " + getTime(originaltimestamp).toUpperCase();
         }
         if (getPunchtypeid() == TIME_OUT) {
-            p = "#" + badge.getId() + " " + "TIMED OUT: " + getTime(originaltimestamp).toUpperCase();
+            p = "#" + badgeid + " " + "TIMED OUT: " + getTime(originaltimestamp).toUpperCase();
         }
         return p;
          
@@ -83,10 +94,9 @@ public class Punch {
     GregorianCalendar gc = new GregorianCalendar();
     gc.setTimeInMillis(s);
     
-    SimpleDateFormat sdf = new SimpleDateFormat("EEE MM/dd/yyy HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("EEE MM/dd/yyyy HH:mm:ss");
     java.util.Date d = gc.getTime();
     String time = sdf.format(d);
-    
     
     return time;
 }

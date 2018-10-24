@@ -2,7 +2,6 @@ package teamproject;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 
@@ -94,8 +93,12 @@ public class TASDatabase {
                                 
                                 int terminalId = resultset.getInt(2);
                                 int punchTypeId = resultset.getInt(5);
-                               
-                                p = new Punch(getBadge(badge), terminalId, punchTypeId);
+                                long originalTS = resultset.getLong(6);
+                                p = new Punch(getBadge(badge), terminalId, punchTypeId, originalTS);
+                                
+                                long originalts = resultset.getLong(4);
+                                
+                                p = new Punch(getBadge(badge), terminalId, punchTypeId, originalts);
 
                                 return p;
                                 
@@ -316,11 +319,10 @@ public class TASDatabase {
            return s;
    }
 
- public long getOriginalTimestamp(Punch p)
+ public long getOriginalTimestamp(Badge b)
  {
-     String id = p.getBadgeid();
+     String id = b.getId();
      
-     Shift s = null; 
      
       try
        {
@@ -348,11 +350,7 @@ public class TASDatabase {
                             while(true)
                             {
                                
-                               int shiftId = resultset.getInt(7);
                                
-                               s = getShift(shiftId);
-                               
-                               return s;
                                
                             }
                             
@@ -433,7 +431,7 @@ public ArrayList getDailyPunchList(Badge b, long ts)
     
 }
 
-
+}
 
 
 
