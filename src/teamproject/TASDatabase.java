@@ -2,6 +2,7 @@ package teamproject;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 
@@ -52,6 +53,7 @@ public class TASDatabase {
             catch (Exception e) 
             {
                 System.err.println("Unable to connect to the database");
+                System.err.println(e.toString());
             }
             
             
@@ -96,10 +98,7 @@ public class TASDatabase {
                                 long originalTS = resultset.getLong(6);
                                 p = new Punch(getBadge(badge), terminalId, punchTypeId, originalTS);
                                 
-                                long originalts = resultset.getLong(4);
-                                
-                                p = new Punch(getBadge(badge), terminalId, punchTypeId, originalts);
-
+                               
                                 return p;
                                 
                             }
@@ -115,7 +114,8 @@ public class TASDatabase {
        
         catch (Exception e) 
         {
-            System.err.println("Unable to connect to the database");
+            //System.err.println("Unable to connect to the database");
+            System.err.println(e.toString());
             
         }
                  
@@ -173,7 +173,8 @@ public class TASDatabase {
        
         catch (Exception e) 
         {
-            System.err.println("Unable to connect to the database");
+            //System.err.println("Unable to connect to the database");
+            System.err.println(e.toString());
             
         }
                  
@@ -251,7 +252,8 @@ public class TASDatabase {
        
         catch (Exception e) 
         {
-            System.err.println("Unable to connect to the database");
+            //System.err.println("Unable to connect to the database");
+            System.err.println(e.toString());
             
         }
                  
@@ -312,68 +314,14 @@ public class TASDatabase {
        
         catch (Exception e) 
         {
-            System.err.println("Unable to connect to the database");
-            
+            //System.err.println("Unable to connect to the database");
+            System.err.println(e.toString());
         }
              
            return s;
    }
 
- public long getOriginalTimestamp(Badge b)
- {
-     String id = b.getId();
-     
-     
-      try
-       {
-           
-            query = ("SELECT * FROM punch WHERE badgeid = '" + id + "'");
-            pstSelect = conn.prepareStatement(query);
-            
-            hasresults = pstSelect.execute();     
-           
-                while ( hasresults || pstSelect.getUpdateCount() != -1 ) {
 
-                    if ( hasresults ) {
-                        
-                        /* Get ResultSet Metadata */
-                        
-                        resultset = pstSelect.getResultSet();
-                        metadata = resultset.getMetaData();
-                       
-                       
-                        /* Get Data; Print as Table Rows */
-                        
-                        while(resultset.next()) {
-                          
-
-                            while(true)
-                            {
-                               
-                               
-                               
-                            }
-                            
-                        }
-                    }
-                    
-                    hasresults = pstSelect.getMoreResults();
-                }
-                
-               
-       }
-       
-        catch (Exception e) 
-        {
-            System.err.println("Unable to connect to the database");
-            
-        }
-             
-           return s;
-     
-     
- }
-   
    
 public int insertPunch(Punch p)
 {
@@ -410,13 +358,12 @@ public int insertPunch(Punch p)
 
                     }
 
-
     }
     
     catch (Exception e) 
     {
-            System.err.println("Unable to connect to the database");
-            
+            //System.err.println("Unable to connect to the database");
+            System.err.println(e.toString());
     }
     
     return id;
@@ -424,14 +371,102 @@ public int insertPunch(Punch p)
 }
 
 
-public ArrayList getDailyPunchList(Badge b, long ts) 
+public ArrayList<Punch> getDailyPunchList(Badge b, long ts) 
 {
+    //set one to midnight and one to 
+    ArrayList<Punch> p1 = new ArrayList<>(); 
     
+         
+    long originaltimestamp;
+    int punchtype;
+    int punchid;
     
+    try
+       {
+            query = ("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts1 FROM punch p WHERE badgeid = ?");
+            pstSelect = conn.prepareStatement(query);
+            pstSelect.setString(1, b.getId());
+            
+            hasresults = pstSelect.execute();     
+           
+                while ( hasresults || pstSelect.getUpdateCount() != -1 ) {
+
+                    if ( hasresults ) {
+                        
+                        /* Get ResultSet Metadata */
+                        
+                        resultset = pstSelect.getResultSet();
+                        metadata = resultset.getMetaData();
+                       
+                       
+                        /* Get Data; Print as Table Rows */
+                        
+                        while(resultset.next()) {
+                          
+                               
+                               String badge = resultset.getString("badgeid");
+                               
+                               int id = resultset.getInt("id");
+                               int terminalId = resultset.getInt("terminalid");
+                               int punchTypeId = resultset.getInt("punchtypeid");
+                               long originalTS = resultset.getLong("ts1");
+                                
+                               Punch p = new Punch(b, terminalId, punchTypeId);
+                               p.setOriginaltimestamp(originalTS);
+                               
+                               GregorianCalendar gc = new GregorianCalendar();
+                               gc.setTimeInMillis(originalTS);
+                               gc.setTimeInMillis(ts);
     
+                               SimpleDateFormat days = new SimpleDateFormat("MM/dd/yyyy");
+                               
+                               SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+                               
+                               
+                               String originalTime = time.format(originalTS);
+                               String givenTsTime = time.format(ts);
+                               
+                               String original = days.format(originalTS);
+                               String givenTs = days.format(ts);
+                               
+                               if(original.equals(givenTs))
+                               {
+                                    p1.add(p);
+                                    
+                               }
+                               
+                               if((originalTime.charAt(1) < 12) && original.charAt(1)+1 == givenTs.charAt(1) 
+                                       && punchTypeId == 0 || punchTypeId == 2)
+                               {
+                                   p1.add(p);
+                                   
+                               }
+                                   
+                              
+                               
+                        
+                    }
+                    
+                    hasresults = pstSelect.getMoreResults();
+                }
+                
+               
+       }
+       }
+       
+        catch (Exception e) 
+        {
+            //System.err.println("Unable to connect to the database");
+            System.err.println(e.toString());
+        }
+            
+    return p1;
 }
 
+
 }
+
+
 
 
 
