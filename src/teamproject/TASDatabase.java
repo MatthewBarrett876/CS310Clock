@@ -435,12 +435,7 @@ public ArrayList<Punch> getDailyPunchList(Badge b, long ts)
                                     
                                }
                                
-                               if((originalTime.charAt(1) < 12) && original.charAt(1)+1 == givenTs.charAt(1) 
-                                       && punchTypeId == 0 || punchTypeId == 2)
-                               {
-                                   p1.add(p);
-                                   
-                               }
+                               
                                    
                               
                                
