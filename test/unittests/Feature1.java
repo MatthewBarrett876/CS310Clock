@@ -1,6 +1,9 @@
 package unittests;
 
-import teamproject.*;
+import teamproject.Shift;
+import teamproject.TASDatabase;
+import teamproject.Punch;
+import teamproject.Badge;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -106,7 +109,6 @@ public class Feature1 {
     }
     
 }
-
 
 
 
