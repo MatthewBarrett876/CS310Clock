@@ -111,6 +111,7 @@ public class Punch {
        int lunchStartHour = gc.get(Calendar.HOUR_OF_DAY);
     
        gc.setTimeInMillis(s.getLunchStop());
+       int lunchStopHour = gc.get(Calendar.HOUR_OF_DAY);
        int lunchStopMinute = gc.get(Calendar.MINUTE);
         
        gc.setTimeInMillis(s.getStop()); 
@@ -590,7 +591,7 @@ public class Punch {
               
                 
                         else if(originalMinute < (stopTimeMinute - interval) 
-                                    && originalMinute >= (stopTimeMinute - interval) - intervalCheck)
+                                    && originalMinute >= (stopTimeMinute - interval) - intervalCheck  - 1)
                         {
                             originalMinute = stopTimeMinute - interval;
                             
@@ -600,7 +601,7 @@ public class Punch {
                             
                         }
                         
-                        else if(originalMinute < (stopTimeMinute - interval) - intervalCheck)
+                        else if(originalMinute < (stopTimeMinute - interval) - intervalCheck - 1)
                         {
                          
                             originalMinute = 0;
@@ -860,7 +861,6 @@ public class Punch {
         }
         return p;
          
-                
     } 
     
     public String getDateTime(long s)
