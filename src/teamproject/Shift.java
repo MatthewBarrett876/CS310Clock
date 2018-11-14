@@ -51,15 +51,16 @@ public String getTime(long s)
     return time;
 }
 
-
+public String getDescription() {return description;}
 public Long getStart(){return start;}
 public Long getStop(){return stop;}
+public Long getLunchStart() {return lunchStart;}
+public Long getLunchStop() {return lunchStop;}
 public void Shift1(){}
 public void Shift2(){}
-public void Interval(){}
-public void GradePeriod(){}
-public void Dock(){
-}
+public int getInterval(){return interval;}
+public int getGracePeriod(){return gracePeriod;}
+public int getDock(){return dock;}
  
 
 @Override
