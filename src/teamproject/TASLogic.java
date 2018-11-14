@@ -3,6 +3,7 @@ package teamproject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+
 public class TASLogic {
     
    public static int calculateTotalMinutes(ArrayList<Punch> dailypunchlist, Shift shift)
@@ -47,7 +48,7 @@ public class TASLogic {
                 boolean checkLunch = false;
                 boolean checkTimeOut = false;
                 
-                if(shift.getDiscription().equals("Shift 1"))
+                if(shift.getDescription().equals("Shift 1"))
                 {
                     if(punch.getPunchtypeid() == 2)
                     {
@@ -98,7 +99,7 @@ public class TASLogic {
                     }
                 }
                 
-                else if(shift.getDiscription().equals("Shift 2"))
+                else if(shift.getDescription().equals("Shift 2"))
                 {
                    
                     if(punch.getPunchtypeid() == 1 && (originalHour != lunchStartHour))
