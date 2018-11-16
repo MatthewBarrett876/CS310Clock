@@ -2,6 +2,8 @@ package teamproject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import org.json.simple.*;
+import java.util.HashMap;
 
 
 public class TASLogic {
@@ -197,6 +199,26 @@ public class TASLogic {
         }
         
         return total;
+       
+   }
+   
+   public static String getPunchListAsJSON(ArrayList<Punch> dailypunchlist) {
+       String json = "";
+       ArrayList<HashMap<String, String>> jsonData = new ArrayList();
+       for (Punch punch : dailypunchlist) {
+           HashMap<String, String> punchData = new HashMap<>();
+           punchData.put("id", String.valueOf(punch.getID()));
+           punchData.put("badgeid", String.valueOf(punch.getBadgeid()));
+           punchData.put("terminalid", String.valueOf(punch.getTerminalid()));
+           punchData.put("punchtypeid", String.valueOf(punch.getPunchtypeid()));
+           punchData.put("punchdata", String.valueOf(punch.getNote()));
+           punchData.put("originaltimestamp", String.valueOf(punch.getOriginaltimestamp()));
+           punchData.put("adjustedtimestamp", String.valueOf(punch.getAdjustedtimestamp()));
+           jsonData.add(punchData);
+       
+       }
+       json = JSONValue.toJSONString(jsonData);
+       return json;
        
    }
     

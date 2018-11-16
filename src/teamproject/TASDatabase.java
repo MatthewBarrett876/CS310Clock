@@ -92,11 +92,11 @@ public class TASDatabase {
                             while(true)
                             {
                                 String badge = resultset.getString(3);
-                                
+                                int id = resultset.getInt(1);
                                 int terminalId = resultset.getInt(2);
                                 int punchTypeId = resultset.getInt(5);
                                 long originalTS = resultset.getLong(6);
-                                p = new Punch(getBadge(badge), terminalId, punchTypeId, originalTS);
+                                p = new Punch(getBadge(badge), terminalId, punchTypeId, originalTS, id);
                                 
                                
                                 return p;
@@ -411,7 +411,7 @@ public ArrayList<Punch> getDailyPunchList(Badge b, long ts)
                                int punchTypeId = resultset.getInt("punchtypeid");
                                long originalTS = resultset.getLong("ts1");
                                 
-                               Punch p = new Punch(b, terminalId, punchTypeId);
+                               Punch p = new Punch(b, terminalId, punchTypeId, originalTS, id);
                                p.setOriginaltimestamp(originalTS);
                                
                                GregorianCalendar gc = new GregorianCalendar();

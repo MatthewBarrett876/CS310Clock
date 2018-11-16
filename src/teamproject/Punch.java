@@ -13,7 +13,7 @@ public class Punch {
     private int punchtypeid;
     private long originaltimestamp;
     private long adjustedtimestamp;
-    private int id = 0;
+    private int id;
     public static final int CLOCK_OUT = 0;
     public static final int CLOCK_IN = 1;
     public static final int TIME_OUT = 2;
@@ -31,11 +31,11 @@ public class Punch {
     }
     
     
-    public Punch(Badge badge, int terminalid, int punchtypeid, long originalts) {
+    public Punch(Badge badge, int terminalid, int punchtypeid, long originalts, int id) {
         this.badgeid = badge.getId();
         this.terminalid = terminalid;
         this.punchtypeid = punchtypeid;
-        
+        this.id = id;
         this.originaltimestamp = originalts;
         
     }
@@ -59,6 +59,8 @@ public class Punch {
     public long getOriginaltimestamp() {return originaltimestamp;}
     public long getAdjustedtimestamp() {return adjustedtimestamp;}
     public int getID() {return id;}
+    public String getNote() {return note;}
+    
    
     public void setTerminalid(int t) {
         this.terminalid = t;
@@ -142,7 +144,7 @@ public class Punch {
                         {
                             setAdjustedtimestamp(originaltimestamp);
 
-                            note = "(None)";
+                            note = "None";
                             break;
 
                         }
@@ -154,7 +156,7 @@ public class Punch {
                             originalSecond = 0;
                             originalHour = originalHour + 1;
                             
-                            note = "(Interval Round)";
+                            note = "Interval Round";
                             
                             break;
                         }
@@ -166,7 +168,7 @@ public class Punch {
                             originalMinute = (60 - interval * i);
                             originalSecond = 0;
                             
-                            note = "(Interval Round)";
+                            note = "Interval Round";
                             
                             break;
                         }
@@ -198,7 +200,7 @@ public class Punch {
                                     originalSecond = 0;
                                     originalHour = originalHour + 1;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
                                 }
@@ -209,7 +211,7 @@ public class Punch {
                                     originalMinute = (60 - interval);
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
 
@@ -222,7 +224,7 @@ public class Punch {
                                 originalMinute = (60 - (interval * i));
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
 
                             }
@@ -233,7 +235,7 @@ public class Punch {
                                 originalMinute = (60 - (interval * i));
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                                 
                             }
@@ -244,7 +246,7 @@ public class Punch {
                                 originalMinute = 0;
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                             }
                             
@@ -252,7 +254,7 @@ public class Punch {
                             {
                                 setAdjustedtimestamp(originaltimestamp);
                                 
-                                note = "(None)";
+                                note = "None";
                                 break;
                             }
                                     
@@ -297,7 +299,7 @@ public class Punch {
                                     originalMinute = 0;
                                     originalSecond = 0;
 
-                                    note = "(Shift Start)";
+                                    note = "Shift Start";
                                     
                                     break;
 
@@ -317,7 +319,7 @@ public class Punch {
                                     originalMinute = (60 - (interval * i));
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
 
@@ -331,7 +333,7 @@ public class Punch {
                                     originalMinute = (60 - (interval * i) + interval);
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
                                 }
@@ -341,7 +343,7 @@ public class Punch {
                                     originalMinute = 0;
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
 
@@ -351,7 +353,7 @@ public class Punch {
                                 {
                                     setAdjustedtimestamp(originaltimestamp);
 
-                                    note = "(None)";
+                                    note = "None";
 
                                 }
 
@@ -385,7 +387,7 @@ public class Punch {
                                     originalSecond = 0;
                                     originalHour = originalHour + 1;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
                                 }
@@ -396,7 +398,7 @@ public class Punch {
                                     originalMinute = (60 - interval);
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
 
@@ -409,7 +411,7 @@ public class Punch {
                                 originalMinute = (60 - (interval * i));
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
 
                             }
 
@@ -418,7 +420,7 @@ public class Punch {
                                 originalMinute = 0;
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
 
                             }
                             
@@ -427,7 +429,7 @@ public class Punch {
                                 originalSecond = 0;
                                 setAdjustedtimestamp(originaltimestamp);
                                 
-                                note = "(None)";
+                                note = "None";
                                 
                             }
                                     
@@ -459,7 +461,7 @@ public class Punch {
                             originalMinute = startTimeMinute;
                             originalSecond = 0;
                             
-                            note = "(Shift Start)";
+                            note = "Shift Start";
                             
                         }
                         
@@ -468,7 +470,7 @@ public class Punch {
                             
                             originalMinute = interval;
                             originalSecond = 0;
-                            note = "(Shift Dock)";
+                            note = "Shift Dock";
                             
                         }
                         
@@ -480,7 +482,7 @@ public class Punch {
                                 originalMinute = interval;
                                 originalSecond = 0;
                                 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                             }
                             
@@ -490,7 +492,7 @@ public class Punch {
                                 originalMinute = (interval * i);
                                 originalSecond = 0;
                                 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                             }
                             
@@ -500,7 +502,7 @@ public class Punch {
                                 originalMinute = 0;
                                 originalSecond = 0;
                                 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                             }
                             
@@ -510,7 +512,7 @@ public class Punch {
                                 
                                 originalSecond = 0;
                                 
-                                note = "(None)";
+                                note = "None";
                                 
                             }
                         }
@@ -549,7 +551,7 @@ public class Punch {
                                 setAdjustedtimestamp(originaltimestamp);
 
                                 originalSecond = 0;
-                                    note = "(None)";
+                                    note = "None";
                                     
                                     break;
                             }
@@ -563,7 +565,7 @@ public class Punch {
                             originalMinute = stopTimeMinute;
                             originalSecond = 0;
 
-                            note = "(Shift Stop)";
+                            note = "Shift Stop";
                             
                         }
                         
@@ -573,7 +575,7 @@ public class Punch {
                             originalMinute = stopTimeMinute;
                             originalSecond = 0;
 
-                            note = "(Shift Stop)";
+                            note = "Shift Stop";
                             
                         }
                         
@@ -584,7 +586,7 @@ public class Punch {
                                 originalMinute = (stopTimeMinute - interval);
                                 originalSecond = 0;
 
-                                note = "(Shift Dock)";
+                                note = "Shift Dock";
 
                             }
 
@@ -597,7 +599,7 @@ public class Punch {
                             
                              originalSecond = 0;
                             
-                            note = "(Interval Round)";
+                            note = "Interval Round";
                             
                         }
                         
@@ -606,7 +608,7 @@ public class Punch {
                          
                             originalMinute = 0;
                             originalSecond = 0;
-                            note = "(Interval Round)";
+                            note = "Interval Round";
                         }
                         
                         
@@ -638,7 +640,7 @@ public class Punch {
                                     originalSecond = 0;
                                     originalHour = originalHour + 1;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
                                 }
@@ -649,7 +651,7 @@ public class Punch {
                                     originalMinute = (60 - interval);
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
 
@@ -662,7 +664,7 @@ public class Punch {
                                 originalMinute = (60 - (interval * i));
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
 
                             }
@@ -672,7 +674,7 @@ public class Punch {
                                 originalMinute = 0;
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                             }
                             
@@ -680,7 +682,7 @@ public class Punch {
                             {
                                 setAdjustedtimestamp(originaltimestamp);
                                 originalSecond = 0;
-                                note = "(None)";
+                                note = "None";
                                 break;
                             }
                                     
@@ -713,7 +715,7 @@ public class Punch {
                                     originalSecond = 0;
                                     originalHour = originalHour + 1;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
                                 }
@@ -725,7 +727,7 @@ public class Punch {
                                     originalMinute = (60 - interval);
                                     originalSecond = 0;
 
-                                    note = "(Interval Round)";
+                                    note = "Interval Round";
 
                                     break;
 
@@ -739,7 +741,7 @@ public class Punch {
                                 originalMinute = (60 - (interval * i));
                                 originalSecond = 0;
 
-                                note = "(Interval Round)"; 
+                                note = "Interval Round"; 
                                 break;
 
                             }
@@ -749,7 +751,7 @@ public class Punch {
                                 originalMinute = 0;
                                 originalSecond = 0;
 
-                                note = "(Interval Round)";
+                                note = "Interval Round";
                                 break;
                             }
                             
@@ -757,7 +759,7 @@ public class Punch {
                             {
                                 setAdjustedtimestamp(originaltimestamp);
                                 originalSecond = 0;
-                                note = "(None)";
+                                note = "None";
                                 break;
                             }
                                     
@@ -797,7 +799,7 @@ public class Punch {
                 originalSecond = 0;
                 originalHour = lunchStartHour;
                 
-                note = "(Lunch Start)";
+                note = "Lunch Start";
                 
             }
             
@@ -807,7 +809,7 @@ public class Punch {
                 originalMinute = lunchStopMinute;
                 originalSecond = 0;
                 
-                note = "(Lunch Stop)";
+                note = "Lunch Stop";
                 
             }
             
@@ -851,13 +853,13 @@ public class Punch {
         String p = null;
         if (getPunchtypeid() == CLOCK_OUT) {
             
-            p = "#" + badgeid + " " + "CLOCKED OUT: " + getDateTime(adjustedtimestamp).toUpperCase() + " " + note;
+            p = "#" + badgeid + " " + "CLOCKED OUT: " + getDateTime(adjustedtimestamp).toUpperCase() + " " + "(" + note + ")";
         }
         if (getPunchtypeid() == CLOCK_IN) {
-            p = "#" + badgeid + " " + "CLOCKED IN: " + getDateTime(adjustedtimestamp).toUpperCase() + " " + note;
+            p = "#" + badgeid + " " + "CLOCKED IN: " + getDateTime(adjustedtimestamp).toUpperCase() + " " + "(" + note + ")";
         }
         if (getPunchtypeid() == TIME_OUT) {
-            p = "#" + badgeid + " " + "TIMED OUT: " + getDateTime(adjustedtimestamp).toUpperCase() + " " + note;
+            p = "#" + badgeid + " " + "TIMED OUT: " + getDateTime(adjustedtimestamp).toUpperCase() + " " +  "(" + note + ")";
         }
         return p;
          
