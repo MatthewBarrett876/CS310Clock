@@ -3,6 +3,7 @@ package teamproject;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -91,11 +92,11 @@ public class TASDatabase {
 
                             while(true)
                             {
-                                String badge = resultset.getString(3);
-                                int id = resultset.getInt(1);
-                                int terminalId = resultset.getInt(2);
-                                int punchTypeId = resultset.getInt(5);
-                                long originalTS = resultset.getLong(6);
+                                String badge = resultset.getString("badgeid");
+                                int id = resultset.getInt("id");
+                                int terminalId = resultset.getInt("terminalid");
+                                int punchTypeId = resultset.getInt("punchtypeid");
+                                long originalTS = resultset.getLong("ts");
                                 p = new Punch(getBadge(badge), terminalId, punchTypeId, originalTS, id);
                                 
                                
@@ -153,8 +154,8 @@ public class TASDatabase {
 
                             while(true)
                             {
-                                String badgeId = resultset.getString(1);
-                                String description = resultset.getString(2);
+                                String badgeId = resultset.getString("id");
+                                String description = resultset.getString("description");
                                 
                                 b = new Badge(badgeId, description);
                                 
@@ -210,27 +211,27 @@ public class TASDatabase {
                         while(resultset.next()) {
                           
 
-                            while(true)
-                            {
+                            
+                            
                                
-                                String description = resultset.getString(2);
+                                String description = resultset.getString("description");
                                 
                                 
-                                long start = resultset.getLong(11);
+                                long start = resultset.getLong("ts1");
                                 
                                 
-                                long stop = resultset.getLong(12);
+                                long stop = resultset.getLong("ts2");
                                 
                                 
                                 
-                                long lunchstart = resultset.getLong(13);
+                                long lunchstart = resultset.getLong("ts3");
                                 
-                                long lunchstop = resultset.getLong(14);
+                                long lunchstop = resultset.getLong("ts4");
 
-                                int interval = resultset.getInt(5);
-                                int gracePeriod = resultset.getInt(6);
-                                int dock = resultset.getInt(7);
-                                int lunchDeduct = resultset.getInt(10);
+                                int interval = resultset.getInt("interval");
+                                int gracePeriod = resultset.getInt("graceperiod");
+                                int dock = resultset.getInt("dock");
+                                int lunchDeduct = resultset.getInt("lunchdeduct");
                                 
                                
                                 s = new Shift(description, start, stop, lunchstart, 
@@ -239,7 +240,7 @@ public class TASDatabase {
                                 
                                 return s;
                                 
-                            }
+                            
                             
                         }
                     }
@@ -376,10 +377,11 @@ public ArrayList<Punch> getDailyPunchList(Badge b, long ts)
     //set one to midnight and one to 
     ArrayList<Punch> p1 = new ArrayList<>(); 
     
-         
-    long originaltimestamp;
-    int punchtype;
-    int punchid;
+    GregorianCalendar check = new GregorianCalendar();
+    check.setTimeInMillis(ts);
+    
+    
+    
     
     try
        {
@@ -420,11 +422,10 @@ public ArrayList<Punch> getDailyPunchList(Badge b, long ts)
     
                                SimpleDateFormat days = new SimpleDateFormat("MM/dd/yyyy");
                                
-                               SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+                              // SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
                                
                                
-                               String originalTime = time.format(originalTS);
-                               String givenTsTime = time.format(ts);
+                              
                                
                                String original = days.format(originalTS);
                                String givenTs = days.format(ts);
